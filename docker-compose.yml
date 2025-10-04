@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database - 결과 캐시 및 로그 저장
+  postgres:
+    image: postgres:15-alpine
+    container_name: linkcoach-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-linkcoach}
+      POSTGRES_USER: ${POSTGRES_USER:-linkcoach_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-linkcoach_pass}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-linkcoach_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - linkcoach-network
+
+  # ChromaDB - Vector Database for RAG
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: linkcoach-chromadb
+    environment:
+      CHROMA_SERVER_HOST: 0.0.0.0
+      CHROMA_SERVER_HTTP_PORT: 8000
+      ALLOW_RESET: "true"
+    ports:
+      - "8001:8000"
+    volumes:
+      - chromadb_data:/chroma/chroma
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - linkcoach-network
+
+  # FastAPI Backend Server
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: linkcoach-server
+    environment:
+      # Database
+      DATABASE_URL: postgresql://${POSTGRES_USER:-linkcoach_user}:${POSTGRES_PASSWORD:-linkcoach_pass}@postgres:5432/${POSTGRES_DB:-linkcoach}
+
+      # ChromaDB
+      CHROMA_HOST: chromadb
+      CHROMA_PORT: 8000
+
+      # JWT Security
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-your-secret-key-change-in-production}
+      JWT_ALGORITHM: HS256
+
+      # Google Gemini API
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+
+      # App Settings
+      APP_ENV: ${APP_ENV:-development}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost:3000}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/app
+      - ./server/models:/app/models  # ML 모델 파일 마운트
+    depends_on:
+      postgres:
+        condition: service_healthy
+      chromadb:
+        condition: service_healthy
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - linkcoach-network
+
+  # React Widget (개발 서버)
+  widget:
+    build:
+      context: ./widget
+      dockerfile: Dockerfile
+    container_name: linkcoach-widget
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./widget:/app
+      - /app/node_modules  # node_modules는 컨테이너 내부 것 사용
+    command: npm run dev -- --host
+    networks:
+      - linkcoach-network
+
+volumes:
+  postgres_data:
+    driver: local
+  chromadb_data:
+    driver: local
+
+networks:
+  linkcoach-network:
+    driver: bridge

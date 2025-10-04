@@ -1,0 +1,100 @@
+# ==================== Python ====================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# ==================== Node.js ====================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+*.local
+
+# ==================== IDE ====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ==================== Environment ====================
+.env
+.env.local
+.env.*.local
+*.env
+
+# ==================== Database ====================
+*.db
+*.sqlite
+*.sqlite3
+
+# ==================== Logs ====================
+*.log
+logs/
+
+# ==================== Docker ====================
+.dockerignore
+
+# ==================== ML Models ====================
+*.pkl
+*.h5
+*.pt
+*.pth
+*.onnx
+*.joblib
+
+# ==================== Temporary ====================
+tmp/
+temp/
+*.tmp
+
+# ==================== Test Coverage ====================
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# ==================== macOS ====================
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ==================== Project Specific ====================
+# 실제 모델 파일은 무시하지만, 디렉토리 구조는 유지
+server/models/*.pkl
+!server/models/.gitkeep
+
+# ChromaDB 데이터
+chroma_data/
+
+# PostgreSQL 데이터
+postgres_data/
