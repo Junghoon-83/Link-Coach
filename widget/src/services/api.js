@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/.netlify/functions';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -27,16 +27,14 @@ export const getDevToken = async () => {
 };
 
 export const query = async (question, reportId, conversationHistory = []) => {
-    const response = await apiClient.post('/api/v1/coaching/query-non-streaming', {
-        user_id: 'dev_user_123',
-        report_id: reportId,
+    const response = await apiClient.post('/chat', {
         question: question,
-        conversation_history: conversationHistory
+        conversationHistory: conversationHistory
     });
     return response.data;
 };
 
 export const generateInterpretation = async (data) => {
-    const response = await apiClient.post('/api/v1/coaching/interpretation', data);
+    const response = await apiClient.post('/generate', data);
     return response.data;
 };

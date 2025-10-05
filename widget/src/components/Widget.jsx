@@ -12,15 +12,20 @@ function Widget({ userData }) {
   useEffect(() => {
     const loadReport = async () => {
       try {
-        const reportData = await generateInterpretation({
-          user_id: userData.userId,
+        // 더미 리포트 데이터 사용
+        const dummyReport = {
+          report_id: 'demo_report_001',
+          interpretation: '지영 리더님의 리더십 분석 결과입니다.',
           leadership_type: userData.leadershipType,
-          assessment_data: userData.assessmentData,
-        });
-        setReport(reportData);
+          created_at: new Date().toISOString()
+        };
+
+        setTimeout(() => {
+          setReport(dummyReport);
+          setLoading(false);
+        }, 800);
       } catch (err) {
         setError('리포트 생성에 실패했습니다: ' + err.message);
-      } finally {
         setLoading(false);
       }
     };

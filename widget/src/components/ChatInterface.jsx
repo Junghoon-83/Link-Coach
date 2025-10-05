@@ -70,7 +70,7 @@ function ChatInterface({ reportId, userData }) {
       const aiMessage = {
         id: Date.now() + 1,
         role: 'assistant',
-        content: response.answer || response // response가 문자열일 수도 있음
+        content: response.answer || response
       };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {

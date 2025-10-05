@@ -42,55 +42,33 @@ function App() {
     }
   }, [])
 
-  // 개발 모드: 임시 데이터로 초기화
+  // 데모/개발 모드: 임시 데이터로 초기화
   useEffect(() => {
-    console.log('[App] useEffect 실행, DEV:', import.meta.env.DEV, 'isInitialized:', isInitialized)
+    console.log('[App] useEffect 실행, isInitialized:', isInitialized)
 
-    if (import.meta.env.DEV && !isInitialized) {
-      console.log('[App] 개발 모드 초기화 시작...')
+    if (!isInitialized) {
+      console.log('[App] 초기화 시작...')
 
-      // 개발 환경에서 자동 초기화
-      const initDev = async () => {
-        try {
-          console.log('[App] 토큰 요청 중...')
-          // 서버에서 개발용 JWT 토큰 가져오기
-          const response = await fetch('/dev/token')
-          console.log('[App] 토큰 응답:', response.status)
-
-          const data = await response.json()
-          console.log('[App] 토큰 데이터:', data)
-
-          // 실제 JWT 토큰 설정
-          setAuthToken(data.token)
-
-          setUserData({
-            userId: data.user_id,
-            leadershipType: '개별비전형',
-            assessmentData: {
-              scores: {
-                extraversion: 75,
-                thinking: 80,
-                judging: 70
-              }
+      // 자동 초기화 (데모용)
+      const initDemo = async () => {
+        // 폴백: 데모 토큰 사용
+        setAuthToken('demo-token-12345')
+        setUserData({
+          userId: 'demo_user_jiyoung',
+          leadershipType: '개별비전형',
+          assessmentData: {
+            scores: {
+              extraversion: 75,
+              thinking: 80,
+              judging: 70
             }
-          })
-          console.log('[App] 초기화 완료!')
-          setIsInitialized(true)
-        } catch (error) {
-          console.error('[App] 개발 토큰 가져오기 실패:', error)
-          // 폴백: 간단한 토큰 사용
-          setAuthToken('dev-test-token-12345')
-          setUserData({
-            userId: 'dev_user_123',
-            leadershipType: '개별비전형',
-            assessmentData: null
-          })
-          console.log('[App] 폴백으로 초기화 완료')
-          setIsInitialized(true)
-        }
+          }
+        })
+        console.log('[App] 데모 초기화 완료')
+        setIsInitialized(true)
       }
 
-      setTimeout(initDev, 1500)
+      setTimeout(initDemo, 500)
     }
   }, [isInitialized])
 
