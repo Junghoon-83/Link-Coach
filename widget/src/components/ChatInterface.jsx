@@ -1,14 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { query } from '../services/api';
 
-function ChatInterface({ reportId, userData }) {
-  const [messages, setMessages] = useState([
-    {
-      id: 0,
-      role: 'assistant',
-      content: `안녕하세요, 지영 리더님. 저는 그라운더입니다. 당신의 리더십 분석 결과를 바탕으로 실질적인 인사이트를 제공하겠습니다. 궁금하신 점을 편하게 질문해 주세요.`
-    }
-  ]);
+function ChatInterface({ reportId, userData, messages, setMessages }) {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);

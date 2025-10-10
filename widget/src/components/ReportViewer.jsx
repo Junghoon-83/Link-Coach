@@ -12,19 +12,19 @@ function ReportViewer({ report }) {
       interaction: 4.0, // 4.5 미만
       growth: 5.5 // 4.5 이상
     },
-    summary: '지영 리더님은 개별 구성원의 성장과 비전 실현을 최우선으로 하는 리더십 스타일을 가지고 계십니다.',
+    summary: '미래 지향적 비전과 개인 성장을 중심으로 팀을 이끄는 리더십 스타일입니다. 혁신적 관점으로 과제를 재정의하며, 실행 과정에서 팀원과의 명확한 목표 정렬이 성공의 핵심입니다.',
     strengths: [
       {
-        title: '개인 맞춤형 코칭',
-        description: '각 팀원의 강점과 성장 목표를 정확히 파악하여 맞춤형 지원을 제공합니다.'
+        title: '전략적 사고와 혁신',
+        description: '신사업 기획, 문제 재정의, 혁신 아이디어 도출에 탁월한 역량을 발휘합니다.'
       },
       {
-        title: '장기적 비전 공유',
-        description: '개인의 커리어 목표와 조직의 방향성을 연결하는 능력이 탁월합니다.'
+        title: '변화 주도 능력',
+        description: '방향 전환이 필요한 초기 단계에서 팀을 이끌며 새로운 가능성을 제시합니다.'
       },
       {
-        title: '신뢰 기반 관계',
-        description: '팀원들과 깊은 신뢰 관계를 구축하여 솔직한 피드백 문화를 만듭니다.'
+        title: '장기 비전 수립',
+        description: '개인과 조직의 성장 로드맵을 설계하고 미래 지향적 목표를 명확히 합니다.'
       }
     ],
     improvements: [
@@ -164,17 +164,17 @@ function ReportViewer({ report }) {
           <div className="score-details">
             <div className="score-detail-card">
               <div className="score-detail-title">공유 (Sharing)</div>
-              <div className="score-detail-value">{dummyReport.scores.sharing.toFixed(1)}</div>
+              <div className="score-detail-value sharing-color">{dummyReport.scores.sharing.toFixed(1)}</div>
               <div className="score-detail-desc">목표 공유 및 참여 촉진</div>
             </div>
             <div className="score-detail-card">
               <div className="score-detail-title">상호작용 (Interaction)</div>
-              <div className="score-detail-value">{dummyReport.scores.interaction.toFixed(1)}</div>
+              <div className="score-detail-value interaction-color">{dummyReport.scores.interaction.toFixed(1)}</div>
               <div className="score-detail-desc">관계 구축 및 소통 역량</div>
             </div>
             <div className="score-detail-card">
               <div className="score-detail-title">성장 (Growth)</div>
-              <div className="score-detail-value">{dummyReport.scores.growth.toFixed(1)}</div>
+              <div className="score-detail-value growth-color">{dummyReport.scores.growth.toFixed(1)}</div>
               <div className="score-detail-desc">개별 성장 지원 역량</div>
             </div>
           </div>

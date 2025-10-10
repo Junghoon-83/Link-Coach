@@ -9,6 +9,13 @@ function Widget({ userData }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('report');
+  const [chatMessages, setChatMessages] = useState([
+    {
+      id: 0,
+      role: 'assistant',
+      content: `안녕하세요, 지영 리더님. 저는 그라운더입니다. 당신의 리더십 분석 결과를 바탕으로 실질적인 인사이트를 제공하겠습니다. 궁금하신 점을 편하게 질문해 주세요.`
+    }
+  ]);
 
   useEffect(() => {
     const loadReport = async () => {
@@ -122,7 +129,14 @@ function Widget({ userData }) {
           {activeTab === 'compatibility' && (
             <TeamCompatibility userData={userData} />
           )}
-          {activeTab === 'chat' && <ChatInterface reportId={report.report_id} userData={userData} />}
+          {activeTab === 'chat' && (
+            <ChatInterface
+              reportId={report.report_id}
+              userData={userData}
+              messages={chatMessages}
+              setMessages={setChatMessages}
+            />
+          )}
         </div>
       </div>
 

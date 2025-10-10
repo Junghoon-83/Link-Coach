@@ -95,7 +95,7 @@ function TeamCompatibility({ userData }) {
 
       <div className="report-summary-card">
         <h3 className="summary-title">{leadershipData.leadershipType}</h3>
-        <p className="summary-text">지영 리더님은 개별 구성원의 성장과 비전 실현을 최우선으로 하는 리더십 스타일을 가지고 계십니다.</p>
+        <p className="summary-text">미래 지향적 비전과 개인 성장을 중심으로 팀을 이끄는 리더십 스타일입니다. 혁신적 관점으로 과제를 재정의하며, 실행 과정에서 팀원과의 명확한 목표 정렬이 성공의 핵심입니다.</p>
       </div>
 
       {/* 팀 궁합 분석 섹션 */}
@@ -116,8 +116,10 @@ function TeamCompatibility({ userData }) {
                   }
                 }}
               >
-                <div className="followership-name">{follower.name}</div>
-                <div className="followership-desc">{follower.description}</div>
+                <div>
+                  <div className="followership-name">{follower.name}</div>
+                  <div className="followership-desc">{follower.description}</div>
+                </div>
                 {isSelected && (
                   <input
                     type="text"

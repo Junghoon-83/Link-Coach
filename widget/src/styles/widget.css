@@ -615,7 +615,7 @@ body {
 /* ==================== 플로팅 채팅 버튼 ==================== */
 .floating-chat-button {
     position: fixed;
-    bottom: var(--space-6);
+    bottom: 64px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -1164,7 +1164,7 @@ body {
     }
 
     .floating-chat-button {
-        bottom: var(--space-4);
+        bottom: 48px;
         padding: var(--space-3) var(--space-6);
         font-size: var(--font-size-sm);
     }
@@ -1262,7 +1262,7 @@ body {
     }
 
     .floating-chat-button {
-        bottom: max(var(--space-4), env(safe-area-inset-bottom, 16px));
+        bottom: max(48px, env(safe-area-inset-bottom, 48px));
         padding: var(--space-3) var(--space-5);
         gap: var(--space-2);
         z-index: 9999;
@@ -1500,27 +1500,27 @@ body {
 .radar-chart-section {
     background: var(--primary-50);
     border-radius: var(--radius-2xl);
-    padding: var(--space-8);
-    margin-bottom: var(--space-8);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
     border: 1px solid var(--primary-200);
 }
 
 .radar-chart-container {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
+    gap: var(--space-4);
     align-items: center;
 }
 
 .radar-chart {
     width: 100%;
-    max-width: 400px;
+    max-width: 280px;
     height: auto;
 }
 
 .axis-label {
     fill: var(--primary-700);
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 600;
 }
 
@@ -1549,19 +1549,19 @@ body {
 .score-detail-card {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(8px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(139, 92, 246, 0.2);
     border-radius: var(--radius-xl);
     padding: var(--space-5);
     text-align: center;
     transition: all var(--transition-base);
     box-shadow:
-        0 4px 16px rgba(71, 85, 105, 0.08),
+        0 4px 16px rgba(139, 92, 246, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .score-detail-card:hover {
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 12px 32px rgba(71, 85, 105, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    box-shadow: 0 12px 32px rgba(139, 92, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .score-detail-title {
@@ -1572,13 +1572,21 @@ body {
 }
 
 .score-detail-value {
-    font-size: var(--font-size-3xl);
+    font-size: var(--font-size-2xl);
     font-weight: 700;
-    background: linear-gradient(135deg, var(--accent-600), var(--accent-500));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
     margin-bottom: var(--space-2);
+}
+
+.score-detail-value.sharing-color {
+    color: #10b981;
+}
+
+.score-detail-value.interaction-color {
+    color: #3b82f6;
+}
+
+.score-detail-value.growth-color {
+    color: #f59e0b;
 }
 
 .score-detail-desc {
@@ -1597,7 +1605,7 @@ body {
 
 .section-description {
     color: var(--primary-600);
-    text-align: center;
+    text-align: left;
     margin-bottom: var(--space-8);
     font-size: var(--font-size-base);
 }
@@ -1622,6 +1630,10 @@ body {
     box-shadow:
         0 4px 16px rgba(71, 85, 105, 0.08),
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .followership-card:hover {
@@ -1843,7 +1855,7 @@ body {
 /* ==================== 모바일 반응형 ==================== */
 @media (max-width: 768px) {
     .radar-chart-section {
-        padding: var(--space-6);
+        padding: var(--space-5);
     }
 
     .score-details {
