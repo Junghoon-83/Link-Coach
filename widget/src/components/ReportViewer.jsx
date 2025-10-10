@@ -6,6 +6,12 @@ function ReportViewer({ report }) {
   // 더미 데이터
   const dummyReport = {
     leadershipType: '개별비전형',
+    leadershipCode: 'LLH', // 개별비전형: 공유(L), 상호작용(L), 성장(H)
+    scores: {
+      sharing: 4.2, // 4.5 미만
+      interaction: 4.0, // 4.5 미만
+      growth: 5.5 // 4.5 이상
+    },
     summary: '지영 리더님은 개별 구성원의 성장과 비전 실현을 최우선으로 하는 리더십 스타일을 가지고 계십니다.',
     strengths: [
       {
@@ -40,6 +46,28 @@ function ReportViewer({ report }) {
     }
   }
 
+  // 레이더 차트 계산
+  const calculateRadarPoint = (score, angle) => {
+    const center = 200
+    const maxRadius = 160
+    const radius = ((score - 1) / 5) * maxRadius
+    const x = center + radius * Math.cos(angle)
+    const y = center + radius * Math.sin(angle)
+    return { x, y }
+  }
+
+  const angles = {
+    sharing: -Math.PI / 2,
+    interaction: Math.PI / 6,
+    growth: 5 * Math.PI / 6
+  }
+
+  const sharingPoint = calculateRadarPoint(dummyReport.scores.sharing, angles.sharing)
+  const interactionPoint = calculateRadarPoint(dummyReport.scores.interaction, angles.interaction)
+  const growthPoint = calculateRadarPoint(dummyReport.scores.growth, angles.growth)
+
+  const polygonPoints = `${sharingPoint.x},${sharingPoint.y} ${interactionPoint.x},${interactionPoint.y} ${growthPoint.x},${growthPoint.y}`
+
   if (!report) {
     return (
       <div className="report-viewer empty">
@@ -61,8 +89,96 @@ function ReportViewer({ report }) {
       </div>
 
       <div className="report-summary-card">
-        <h3 className="summary-title">리더십 분석 요약</h3>
+        <h3 className="summary-title">{dummyReport.leadershipType}</h3>
         <p className="summary-text">{dummyReport.summary}</p>
+      </div>
+
+      {/* 레이더 차트 */}
+      <div className="radar-chart-section">
+        <h3 className="section-title">리더십 역량 분석</h3>
+        <div className="radar-chart-container">
+          <svg viewBox="0 0 400 400" className="radar-chart">
+            {/* 배경 격자 */}
+            <g className="radar-grid">
+              {[1, 2, 3, 4, 5, 6].map((level) => (
+                <circle
+                  key={level}
+                  cx="200"
+                  cy="200"
+                  r={((level - 1) / 5) * 160}
+                  fill="none"
+                  stroke="rgba(139, 92, 246, 0.1)"
+                  strokeWidth="1"
+                />
+              ))}
+              {/* 축선 */}
+              <line x1="200" y1="200" x2="200" y2="40" stroke="rgba(139, 92, 246, 0.2)" strokeWidth="1" />
+              <line x1="200" y1="200" x2="338.6" y2="280" stroke="rgba(139, 92, 246, 0.2)" strokeWidth="1" />
+              <line x1="200" y1="200" x2="61.4" y2="280" stroke="rgba(139, 92, 246, 0.2)" strokeWidth="1" />
+            </g>
+
+            {/* 점수 영역 */}
+            <polygon
+              points={polygonPoints}
+              fill="rgba(139, 92, 246, 0.15)"
+              stroke="rgba(139, 92, 246, 0.6)"
+              strokeWidth="2"
+              className="score-polygon"
+            />
+
+            {/* 점수 포인트 */}
+            <circle
+              cx={sharingPoint.x}
+              cy={sharingPoint.y}
+              r="6"
+              fill="#10b981"
+              stroke="white"
+              strokeWidth="2"
+              className="score-point sharing"
+            />
+            <circle
+              cx={interactionPoint.x}
+              cy={interactionPoint.y}
+              r="6"
+              fill="#3b82f6"
+              stroke="white"
+              strokeWidth="2"
+              className="score-point interaction"
+            />
+            <circle
+              cx={growthPoint.x}
+              cy={growthPoint.y}
+              r="6"
+              fill="#f59e0b"
+              stroke="white"
+              strokeWidth="2"
+              className="score-point growth"
+            />
+
+            {/* 축 레이블 */}
+            <text x="200" y="25" textAnchor="middle" className="axis-label">공유</text>
+            <text x="360" y="290" textAnchor="middle" className="axis-label">상호작용</text>
+            <text x="40" y="290" textAnchor="middle" className="axis-label">성장</text>
+          </svg>
+
+          <div className="score-details">
+            <div className="score-detail-card">
+              <div className="score-detail-title">공유 (Sharing)</div>
+              <div className="score-detail-value">{dummyReport.scores.sharing.toFixed(1)}</div>
+              <div className="score-detail-desc">목표 공유 및 참여 촉진</div>
+            </div>
+            <div className="score-detail-card">
+              <div className="score-detail-title">상호작용 (Interaction)</div>
+              <div className="score-detail-value">{dummyReport.scores.interaction.toFixed(1)}</div>
+              <div className="score-detail-desc">관계 구축 및 소통 역량</div>
+            </div>
+            <div className="score-detail-card">
+              <div className="score-detail-title">성장 (Growth)</div>
+              <div className="score-detail-value">{dummyReport.scores.growth.toFixed(1)}</div>
+              <div className="score-detail-desc">개별 성장 지원 역량</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="report-section">

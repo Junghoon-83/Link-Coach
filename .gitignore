@@ -98,3 +98,6 @@ chroma_data/
 
 # PostgreSQL 데이터
 postgres_data/
+
+# Local Netlify folder
+.netlify

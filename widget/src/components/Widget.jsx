@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { generateInterpretation } from '../services/api';
 import ChatInterface from './ChatInterface';
 import ReportViewer from './ReportViewer';
+import TeamCompatibility from './TeamCompatibility';
 
 function Widget({ userData }) {
   const [report, setReport] = useState(null);
@@ -23,7 +24,7 @@ function Widget({ userData }) {
         setTimeout(() => {
           setReport(dummyReport);
           setLoading(false);
-        }, 800);
+        }, 100);
       } catch (err) {
         setError('리포트 생성에 실패했습니다: ' + err.message);
         setLoading(false);
@@ -75,51 +76,66 @@ function Widget({ userData }) {
   }
 
   return (
-    <div className="widget-container">
-      <div className="widget-header">
-        <div className="header-content">
-          <h2 className="widget-title">Link-Coach</h2>
-          <p className="widget-subtitle">AI 링커십 코치</p>
+    <>
+      <div className="widget-container">
+        <div className="widget-header">
+          <div className="header-content">
+            <h2 className="widget-title">Link-Coach</h2>
+            <p className="widget-subtitle">AI 링커십 코치</p>
+          </div>
+          <div className="user-info">
+            <span className="user-name">지영 리더님</span>
+            <span className="divider">|</span>
+            <span className="leadership-type">{userData.leadershipType}</span>
+          </div>
         </div>
-        <div className="user-info">
-          <span className="user-name">지영 리더님</span>
-          <span className="divider">|</span>
-          <span className="leadership-type">{userData.leadershipType}</span>
+        <div className="widget-tabs">
+          <button
+            className={`tab-btn ${activeTab === 'report' ? 'active' : ''}`}
+            onClick={() => setActiveTab('report')}
+            role="tab"
+            aria-selected={activeTab === 'report'}
+            aria-controls="report-panel"
+          >
+            <svg className="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span className="tab-label">분석 리포트</span>
+          </button>
+          <button
+            className={`tab-btn ${activeTab === 'compatibility' ? 'active' : ''}`}
+            onClick={() => setActiveTab('compatibility')}
+            role="tab"
+            aria-selected={activeTab === 'compatibility'}
+            aria-controls="compatibility-panel"
+          >
+            <svg className="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span className="tab-label">팀 궁합</span>
+          </button>
+        </div>
+        <div className="widget-content">
+          {activeTab === 'report' && (
+            <ReportViewer report={report} />
+          )}
+          {activeTab === 'compatibility' && (
+            <TeamCompatibility userData={userData} />
+          )}
+          {activeTab === 'chat' && <ChatInterface reportId={report.report_id} userData={userData} />}
         </div>
       </div>
-      <div className="widget-tabs">
-        <button
-          className={`tab-btn ${activeTab === 'report' ? 'active' : ''}`}
-          onClick={() => setActiveTab('report')}
-          role="tab"
-          aria-selected={activeTab === 'report'}
-          aria-controls="report-panel"
-        >
-          <svg className="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <span className="tab-label">분석 리포트</span>
-        </button>
-        <button
-          className={`tab-btn ${activeTab === 'chat' ? 'active' : ''}`}
-          onClick={() => setActiveTab('chat')}
-          role="tab"
-          aria-selected={activeTab === 'chat'}
-          aria-controls="chat-panel"
-        >
-          <svg className="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+
+      {/* 플로팅 채팅 버튼 - report와 compatibility 탭일 때 표시 */}
+      {(activeTab === 'report' || activeTab === 'compatibility') && (
+        <button className="floating-chat-button" onClick={() => setActiveTab('chat')}>
+          <svg className="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
           </svg>
-          <span className="tab-label">그라운더와 대화</span>
+          <span className="chat-label">그라운더와 대화하기</span>
         </button>
-      </div>
-      <div className="widget-content">
-        {activeTab === 'report' && (
-          <ReportViewer report={report} />
-        )}
-        {activeTab === 'chat' && <ChatInterface reportId={report.report_id} userData={userData} />}
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 
