@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function TeamCompatibility({ userData }) {
+function TeamCompatibility() {
   const [selectedFollowers, setSelectedFollowers] = useState([])
   const [memberNames, setMemberNames] = useState({})
   const [showCompatibility, setShowCompatibility] = useState(false)
@@ -85,7 +85,7 @@ function TeamCompatibility({ userData }) {
       {/* 리더십 유형 설명 */}
       <div className="report-header-badge">
         <div className="ai-badge">
-          <svg className="ai-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg className="ai-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
           </svg>
@@ -115,19 +115,36 @@ function TeamCompatibility({ userData }) {
                     toggleFollower(follower.id)
                   }
                 }}
+                role="button"
+                tabIndex={0}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    toggleFollower(follower.id)
+                  }
+                }}
+                aria-pressed={isSelected}
+                aria-label={`${follower.name} 팔로워십 유형 ${isSelected ? '선택됨' : '선택 안됨'}`}
               >
                 <div>
                   <div className="followership-name">{follower.name}</div>
                   <div className="followership-desc">{follower.description}</div>
                 </div>
                 {isSelected && (
+                  <label htmlFor={`member-name-${follower.id}`} className="sr-only">
+                    {follower.name} 팀원 이름
+                  </label>
+                )}
+                {isSelected && (
                   <input
+                    id={`member-name-${follower.id}`}
                     type="text"
                     className="member-name-input"
                     placeholder="팀원 이름 입력 (선택사항)"
                     value={memberNames[follower.id] || ''}
                     onChange={(e) => updateMemberName(follower.id, e.target.value)}
                     onClick={(e) => e.stopPropagation()}
+                    aria-label={`${follower.name} 팀원 이름 입력`}
                   />
                 )}
               </div>
@@ -139,15 +156,16 @@ function TeamCompatibility({ userData }) {
           className="premium-btn"
           onClick={analyzeCompatibility}
           disabled={selectedFollowers.length === 0}
+          aria-label={selectedFollowers.length === 0 ? '팔로워십 유형을 선택해주세요' : `${selectedFollowers.length}명의 팀원 궁합 분석하기`}
         >
           <span>팀 궁합 분석하기</span>
-          <span>→</span>
+          <span aria-hidden="true">→</span>
         </button>
       </div>
 
       {/* 궁합 결과 */}
       {showCompatibility && selectedFollowers.length > 0 && (
-        <div className="compatibility-results">
+        <div className="compatibility-results" role="region" aria-label="팀 궁합 분석 결과">
           <h3 className="section-title">팀 궁합 분석 결과</h3>
           <div className="compatibility-list">
             {selectedFollowers.map(followerId => {

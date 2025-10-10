@@ -1959,3 +1959,334 @@ body {
         line-height: 1.4;
     }
 }
+
+/* ==================== 에러 바운더리 ==================== */
+.error-boundary-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    padding: var(--space-10);
+    background: linear-gradient(135deg,
+        rgba(248, 250, 252, 1),
+        rgba(241, 245, 249, 1));
+}
+
+.error-boundary-content {
+    text-align: center;
+    max-width: 500px;
+}
+
+.error-icon {
+    width: 64px;
+    height: 64px;
+    color: #ef4444;
+    margin: 0 auto var(--space-6);
+    stroke-width: 2;
+}
+
+.error-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--primary-900);
+    margin-bottom: var(--space-4);
+}
+
+.error-message {
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--primary-600);
+    margin-bottom: var(--space-6);
+}
+
+.error-details {
+    margin: var(--space-4) 0;
+    text-align: left;
+    background: var(--primary-50);
+    border: 1px solid var(--primary-200);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+}
+
+.error-details summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary-700);
+    margin-bottom: var(--space-2);
+}
+
+.error-details pre {
+    font-size: var(--font-size-xs);
+    color: #ef4444;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.error-retry-button {
+    padding: var(--space-4) var(--space-8);
+    background: linear-gradient(135deg, var(--accent-600), var(--accent-500));
+    color: white;
+    border: none;
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+}
+
+.error-retry-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ==================== 스켈레톤 로더 ==================== */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.skeleton-report,
+.skeleton-chat {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.skeleton-badge {
+    width: 150px;
+    height: 32px;
+    background: linear-gradient(90deg,
+        var(--primary-100) 0%,
+        var(--primary-200) 50%,
+        var(--primary-100) 100%);
+    background-size: 2000px 100%;
+    animation: shimmer 2s infinite linear;
+    border-radius: var(--radius-full);
+    align-self: center;
+}
+
+.skeleton-summary-card {
+    padding: var(--space-6);
+    background: var(--primary-50);
+    border-radius: var(--radius-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.skeleton-title {
+    width: 40%;
+    height: 24px;
+    background: linear-gradient(90deg,
+        var(--primary-200) 0%,
+        var(--primary-300) 50%,
+        var(--primary-200) 100%);
+    background-size: 2000px 100%;
+    animation: shimmer 2s infinite linear;
+    border-radius: var(--radius-md);
+}
+
+.skeleton-text {
+    width: 100%;
+    height: 16px;
+    background: linear-gradient(90deg,
+        var(--primary-200) 0%,
+        var(--primary-300) 50%,
+        var(--primary-200) 100%);
+    background-size: 2000px 100%;
+    animation: shimmer 2s infinite linear;
+    border-radius: var(--radius-md);
+}
+
+.skeleton-text.short {
+    width: 70%;
+}
+
+.skeleton-radar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-6);
+    background: var(--primary-50);
+    border-radius: var(--radius-2xl);
+}
+
+.skeleton-chart-circle {
+    width: 280px;
+    height: 280px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(90deg,
+        var(--primary-200) 0%,
+        var(--primary-300) 50%,
+        var(--primary-200) 100%);
+    background-size: 2000px 100%;
+    animation: shimmer 2s infinite linear;
+}
+
+.skeleton-score-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    width: 100%;
+}
+
+.skeleton-score-card {
+    height: 100px;
+    background: linear-gradient(90deg,
+        var(--primary-100) 0%,
+        var(--primary-200) 50%,
+        var(--primary-100) 100%);
+    background-size: 2000px 100%;
+    animation: shimmer 2s infinite linear;
+    border-radius: var(--radius-xl);
+}
+
+.skeleton-strengths {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-4);
+}
+
+.skeleton-card {
+    height: 120px;
+    background: linear-gradient(90deg,
+        var(--primary-100) 0%,
+        var(--primary-200) 50%,
+        var(--primary-100) 100%);
+    background-size: 2000px 100%;
+    animation: shimmer 2s infinite linear;
+    border-radius: var(--radius-lg);
+}
+
+.skeleton-chat {
+    padding: var(--space-8) var(--space-6);
+}
+
+.skeleton-message {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+}
+
+.skeleton-message.user {
+    flex-direction: row-reverse;
+}
+
+.skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(90deg,
+        var(--primary-200) 0%,
+        var(--primary-300) 50%,
+        var(--primary-200) 100%);
+    background-size: 2000px 100%;
+    animation: shimmer 2s infinite linear;
+    flex-shrink: 0;
+}
+
+.skeleton-message-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+    max-width: 70%;
+}
+
+.skeleton-message-content.user {
+    align-items: flex-end;
+}
+
+@media (max-width: 768px) {
+    .skeleton-chart-circle {
+        width: 200px;
+        height: 200px;
+    }
+
+    .skeleton-score-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .skeleton-strengths {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==================== 접근성 개선 ==================== */
+/* Skip Navigation */
+.skip-to-main {
+    position: absolute;
+    left: -9999px;
+    z-index: 10000;
+    padding: var(--space-4) var(--space-6);
+    background: var(--accent-600);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+}
+
+.skip-to-main:focus {
+    left: var(--space-4);
+    top: var(--space-4);
+}
+
+/* Focus Visible (키보드 네비게이션 시만 포커스 표시) */
+.tab-btn:focus-visible,
+.floating-chat-button:focus-visible,
+.btn-send:focus-visible,
+.error-retry-button:focus-visible {
+    outline: 3px solid var(--accent-500);
+    outline-offset: 3px;
+}
+
+.chat-input:focus-visible {
+    outline: 3px solid var(--accent-500);
+    outline-offset: 2px;
+}
+
+.followership-card:focus-visible {
+    outline: 3px solid var(--accent-500);
+    outline-offset: 2px;
+}
+
+/* 마우스 클릭 시 포커스 링 제거 */
+.tab-btn:focus:not(:focus-visible),
+.floating-chat-button:focus:not(:focus-visible),
+.btn-send:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Reduced Motion 지원 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* High Contrast 모드 지원 */
+@media (prefers-contrast: high) {
+    .widget-container {
+        border: 3px solid currentColor;
+    }
+
+    .tab-btn.active {
+        border-bottom: 4px solid var(--accent-600);
+    }
+
+    .chat-input:focus {
+        border: 3px solid var(--accent-600);
+    }
+}

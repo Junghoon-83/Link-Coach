@@ -1,7 +1,4 @@
-import { useState } from 'react'
-
 function ReportViewer({ report }) {
-  const [isExpanded, setIsExpanded] = useState(false)
 
   // 더미 데이터
   const dummyReport = {
@@ -80,7 +77,7 @@ function ReportViewer({ report }) {
     <div className="report-viewer">
       <div className="report-header-badge">
         <div className="ai-badge">
-          <svg className="ai-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg className="ai-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
           </svg>
@@ -183,7 +180,7 @@ function ReportViewer({ report }) {
 
       <div className="report-section">
         <h3 className="section-title">
-          <svg className="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           핵심 강점
@@ -201,7 +198,7 @@ function ReportViewer({ report }) {
 
       <div className="report-section">
         <h3 className="section-title">
-          <svg className="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
           성장 기회
@@ -212,7 +209,7 @@ function ReportViewer({ report }) {
               <h4 className="improvement-title">{item.title}</h4>
               <p className="improvement-description">{item.description}</p>
               <div className="improvement-action">
-                <svg className="action-icon" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="action-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                 </svg>
                 <span>{item.action}</span>
@@ -224,7 +221,7 @@ function ReportViewer({ report }) {
 
       <div className="report-section action-plan-section">
         <h3 className="section-title">
-          <svg className="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg className="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
           </svg>
           실행 계획

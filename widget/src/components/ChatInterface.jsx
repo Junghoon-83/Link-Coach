@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { query } from '../services/api';
 
-function ChatInterface({ reportId, userData, messages, setMessages }) {
+function ChatInterface({ reportId, messages, setMessages }) {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -87,7 +87,7 @@ function ChatInterface({ reportId, userData, messages, setMessages }) {
           onClick={scrollToBottom}
           aria-label="대화 끝으로 이동"
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </button>
@@ -107,11 +107,11 @@ function ChatInterface({ reportId, userData, messages, setMessages }) {
           >
             <div className="message-avatar">
               {msg.role === 'user' ? (
-                <svg viewBox="0 0 24 24" fill="currentColor">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-label="사용자" role="img">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
               ) : (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-label="그라운더 AI" role="img">
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                 </svg>
@@ -121,9 +121,9 @@ function ChatInterface({ reportId, userData, messages, setMessages }) {
           </div>
         ))}
         {isLoading && (
-            <div className="message assistant">
+            <div className="message assistant" role="status" aria-live="polite">
                 <div className="message-avatar">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-label="그라운더 AI" role="img">
                     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                   </svg>
@@ -161,11 +161,11 @@ function ChatInterface({ reportId, userData, messages, setMessages }) {
           aria-label={isLoading ? '메시지 전송 중' : '메시지 전송'}
         >
           {isLoading ? (
-            <svg className="btn-icon spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg className="btn-icon spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
           ) : (
-            <svg className="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
             </svg>
           )}

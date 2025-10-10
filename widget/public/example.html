@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Link-Coach Widget Example</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 60px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .info-box {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    .info-box h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+
+    .info-box p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .code-block {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    .status.success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status.error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Link-Coach Widget</h1>
+    <p class="subtitle">AI 리더십 코칭 위젯 데모</p>
+
+    <div class="button-group">
+      <button class="btn-primary" onclick="initWidget()">위젯 열기</button>
+      <button class="btn-secondary" onclick="toggleWidget()">토글</button>
+      <button class="btn-secondary" onclick="hideWidget()">숨기기</button>
+      <button class="btn-danger" onclick="closeWidget()">완전히 닫기</button>
+    </div>
+
+    <div id="status"></div>
+
+    <div class="info-box">
+      <h3>📚 사용법</h3>
+      <p><strong>1. 위젯 열기:</strong> 우측 하단에 Link-Coach 위젯이 표시됩니다.</p>
+      <p><strong>2. 분석 리포트:</strong> 리더십 유형과 강점을 확인하세요.</p>
+      <p><strong>3. AI 채팅:</strong> 그라운더 AI와 대화하며 코칭을 받으세요.</p>
+      <p><strong>4. 팀 궁합:</strong> 팀원들과의 리더십 궁합을 분석하세요.</p>
+
+      <h3 style="margin-top: 30px;">🔧 통합 코드</h3>
+      <div class="code-block">
+&lt;!-- Link-Coach 위젯 스크립트 --&gt;
+&lt;script src="https://link-coach.netlify.app/embed.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  LinkCoach.init({
+    token: 'YOUR_JWT_TOKEN',
+    userId: 'user_123',
+    leadershipType: '개별비전형',
+    assessmentData: {
+      scores: {
+        extraversion: 75,
+        thinking: 80,
+        judging: 70
+      }
+    }
+  });
+&lt;/script&gt;
+      </div>
+    </div>
+  </div>
+
+  <!-- Link-Coach Widget Script -->
+  <script src="/embed.js"></script>
+  <script>
+    let widgetInitialized = false;
+
+    function showStatus(message, type = 'success') {
+      const statusDiv = document.getElementById('status');
+      statusDiv.className = `status ${type}`;
+      statusDiv.textContent = message;
+
+      setTimeout(() => {
+        statusDiv.textContent = '';
+        statusDiv.className = '';
+      }, 3000);
+    }
+
+    function initWidget() {
+      if (!widgetInitialized) {
+        try {
+          LinkCoach.init({
+            token: 'demo-token-12345',
+            userId: 'demo_user_jiyoung',
+            leadershipType: '개별비전형',
+            assessmentData: {
+              scores: {
+                extraversion: 75,
+                thinking: 80,
+                judging: 70
+              }
+            },
+            position: 'bottom-right',
+            width: '420px',
+            height: '650px'
+          });
+          widgetInitialized = true;
+          showStatus('✅ 위젯이 성공적으로 초기화되었습니다!', 'success');
+        } catch (error) {
+          showStatus('❌ 위젯 초기화에 실패했습니다: ' + error.message, 'error');
+        }
+      } else {
+        LinkCoach.show();
+        showStatus('✅ 위젯을 표시했습니다.', 'success');
+      }
+    }
+
+    function toggleWidget() {
+      if (!widgetInitialized) {
+        showStatus('⚠️ 먼저 위젯을 초기화해주세요.', 'error');
+        return;
+      }
+      LinkCoach.toggle();
+      showStatus('🔄 위젯을 토글했습니다.', 'success');
+    }
+
+    function hideWidget() {
+      if (!widgetInitialized) {
+        showStatus('⚠️ 먼저 위젯을 초기화해주세요.', 'error');
+        return;
+      }
+      LinkCoach.hide();
+      showStatus('👁️ 위젯을 숨겼습니다.', 'success');
+    }
+
+    function closeWidget() {
+      if (!widgetInitialized) {
+        showStatus('⚠️ 위젯이 초기화되지 않았습니다.', 'error');
+        return;
+      }
+      LinkCoach.close();
+      widgetInitialized = false;
+      showStatus('🗑️ 위젯을 완전히 닫았습니다.', 'success');
+    }
+
+    // 키보드 단축키
+    document.addEventListener('keydown', function(e) {
+      // Ctrl/Cmd + K: 위젯 토글
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        if (!widgetInitialized) {
+          initWidget();
+        } else {
+          toggleWidget();
+        }
+      }
+      // Esc: 위젯 숨기기
+      if (e.key === 'Escape' && widgetInitialized) {
+        hideWidget();
+      }
+    });
+  </script>
+</body>
+</html>

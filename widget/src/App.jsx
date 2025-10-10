@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react'
-import Widget from './components/Widget'
+import { useState, useEffect, lazy, Suspense } from 'react'
+import ErrorBoundary from './components/ErrorBoundary'
 import { setAuthToken } from './services/api'
+
+// Lazy load Widget
+const Widget = lazy(() => import('./components/Widget'))
 
 function App() {
   const [isInitialized, setIsInitialized] = useState(false)
@@ -82,9 +85,21 @@ function App() {
   }
 
   return (
-    <div className="link-coach-app">
-      <Widget userData={userData} />
-    </div>
+    <ErrorBoundary>
+      <a href="#main-content" className="skip-to-main">
+        메인 콘텐츠로 건너뛰기
+      </a>
+      <div className="link-coach-app" id="main-content">
+        <Suspense fallback={
+          <div className="widget-loading">
+            <div className="spinner"></div>
+            <p>Loading Link-Coach...</p>
+          </div>
+        }>
+          <Widget userData={userData} />
+        </Suspense>
+      </div>
+    </ErrorBoundary>
   )
 }
 

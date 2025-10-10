@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
-import { generateInterpretation } from '../services/api';
-import ChatInterface from './ChatInterface';
-import ReportViewer from './ReportViewer';
-import TeamCompatibility from './TeamCompatibility';
+import { useState, useEffect, lazy, Suspense } from 'react';
+import SkeletonLoader from './SkeletonLoader';
+
+// Lazy load 컴포넌트
+const ChatInterface = lazy(() => import('./ChatInterface'));
+const ReportViewer = lazy(() => import('./ReportViewer'));
+const TeamCompatibility = lazy(() => import('./TeamCompatibility'));
 
 function Widget({ userData }) {
   const [report, setReport] = useState(null);
@@ -48,7 +50,7 @@ function Widget({ userData }) {
       <div className="widget-container loading-state">
         <div className="loading-content">
           <div className="loader">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-label="로딩 중" role="img">
               <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
           </div>
@@ -104,7 +106,7 @@ function Widget({ userData }) {
             aria-selected={activeTab === 'report'}
             aria-controls="report-panel"
           >
-            <svg className="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg className="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
             <span className="tab-label">분석 리포트</span>
@@ -116,34 +118,39 @@ function Widget({ userData }) {
             aria-selected={activeTab === 'compatibility'}
             aria-controls="compatibility-panel"
           >
-            <svg className="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg className="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
             <span className="tab-label">팀 궁합</span>
           </button>
         </div>
         <div className="widget-content">
-          {activeTab === 'report' && (
-            <ReportViewer report={report} />
-          )}
-          {activeTab === 'compatibility' && (
-            <TeamCompatibility userData={userData} />
-          )}
-          {activeTab === 'chat' && (
-            <ChatInterface
-              reportId={report.report_id}
-              userData={userData}
-              messages={chatMessages}
-              setMessages={setChatMessages}
-            />
-          )}
+          <Suspense fallback={<SkeletonLoader type={activeTab === 'chat' ? 'chat' : 'report'} />}>
+            {activeTab === 'report' && (
+              <ReportViewer report={report} />
+            )}
+            {activeTab === 'compatibility' && (
+              <TeamCompatibility />
+            )}
+            {activeTab === 'chat' && (
+              <ChatInterface
+                reportId={report.report_id}
+                messages={chatMessages}
+                setMessages={setChatMessages}
+              />
+            )}
+          </Suspense>
         </div>
       </div>
 
       {/* 플로팅 채팅 버튼 - report와 compatibility 탭일 때 표시 */}
       {(activeTab === 'report' || activeTab === 'compatibility') && (
-        <button className="floating-chat-button" onClick={() => setActiveTab('chat')}>
-          <svg className="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <button
+          className="floating-chat-button"
+          onClick={() => setActiveTab('chat')}
+          aria-label="AI 코치와 채팅 시작"
+        >
+          <svg className="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
           </svg>
           <span className="chat-label">그라운더와 대화하기</span>
